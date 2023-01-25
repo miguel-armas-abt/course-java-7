@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<universityCardList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:noNamespaceSchemaLocation="universityCardList.xsd">
+    <universityCard>
+        <year>2021</year>
+        <expirationDate>2022-12-13</expirationDate>
+        <student>
+            <firstName>KENT JHUNIOR</firstName>
+            <lastName>CUADROS RAMOS</lastName>
+            <dni>76517361</dni>
+            <code>15200134</code>
+            <incomeYear>2021-2</incomeYear>
+            <career>
+                <careerName>INGENIERIA DE SOFTWARE</careerName>
+                <faculty>
+                    <facultyName>INGENIERÍA DE SISTEMAS E INFORMÁTICA</facultyName>
+                    <university>
+                        <universityName>UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS</universityName>
+                    </university>
+                </faculty>
+            </career>
+        </student>
+    </universityCard>
+    <universityCard>
+        <year>2021</year>
+        <expirationDate>2022-12-13</expirationDate>
+        <student>
+            <firstName>MIGUEL RODRIGO</firstName>
+            <lastName>ARMAS ABT</lastName>
+            <dni>76517361</dni>
+            <code>15200134</code>
+            <incomeYear>2021-2</incomeYear>
+            <career>
+                <careerName>INGENIERIA DE SISTEMAS</careerName>
+                <faculty>
+                    <facultyName>INGENIERÍA DE SISTEMAS E INFORMÁTICA</facultyName>
+                    <university>
+                        <universityName>UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS</universityName>
+                    </university>
+                </faculty>
+            </career>
+        </student>
+    </universityCard>
+    <universityCard>
+        <year>2021</year>
+        <expirationDate>2022-12-13</expirationDate>
+        <student>
+            <firstName>EDINSON PAOLO</firstName>
+            <lastName>BOADA CAJO</lastName>
+            <dni>76517361</dni>
+            <code>15200134</code>
+            <incomeYear>2021-2</incomeYear>
+            <career>
+                <careerName>INGENIERIA DE SISTEMAS</careerName>
+                <faculty>
+                    <facultyName>INGENIERÍA DE SISTEMAS E INFORMÁTICA</facultyName>
+                    <university>
+                        <universityName>UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS</universityName>
+                    </university>
+                </faculty>
+            </career>
+        </student>
+    </universityCard>
+</universityCardList>
