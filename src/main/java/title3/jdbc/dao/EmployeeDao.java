@@ -1,9 +1,8 @@
 package title3.jdbc.dao;
 
-import title4.application.employee.model.EmployeeDto;
-
 import java.sql.SQLException;
 import java.util.List;
+import title8.application.employee.domain.model.EmployeeDto;
 
 public interface EmployeeDao {
 
