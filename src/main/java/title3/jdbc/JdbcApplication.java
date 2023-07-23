@@ -10,7 +10,10 @@ public class JdbcApplication {
 
   public static void main(String[] args) throws SQLException {
     EmployeeDao employeeDao = new EmployeeDaoImpl();
-    
+
+    System.out.println("\nFIND BY CODE");
+    System.out.println(employeeDao.findByCode(2));
+
     System.out.println("\nFIND ALL");
     employeeDao.findAll().forEach(System.out::println);
 
@@ -27,7 +30,7 @@ public class JdbcApplication {
     employeeDao.findAll().forEach(System.out::println);
 
     System.out.println("\nDELETE BY ID");
-    employeeDao.deleteByCode(7);
+    employeeDao.deleteByCode(2);
 
     System.out.println("\nFIND ALL");
     employeeDao.findAll().forEach(System.out::println);

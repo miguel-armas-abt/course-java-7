@@ -16,84 +16,84 @@ public abstract class EmployeeDao {
   private ResultSet result = null;
 
   public List<EmployeeDto> findByDepartmentCode(int departmentCode) {
-
-
     try {
       connection = DatabaseConnection.getConnection();
-      String sqlStatement = "SELECT code, name, contract_date, department_code FROM employees WHERE department_code = ? ";
-      statement = connection.prepareStatement(sqlStatement);
+      connection.setAutoCommit(false);
+      statement = connection.prepareStatement("SELECT code, name, contract_date, department_code FROM employees WHERE department_code = ? ");
       statement.setInt(1, departmentCode);
       result = statement.executeQuery();
 
       List<EmployeeDto> employeeList = new ArrayList<>();
-      EmployeeDto employee = null;
-
       while (result.next()) {
-        employee = new EmployeeDto();
+        EmployeeDto employee = new EmployeeDto();
         employee.setCode(result.getInt("code"));
         employee.setName(result.getString("name"));
         employee.setContractDate(result.getDate("contract_date"));
         employee.setDepartmentCode(result.getInt("department_code"));
+
         employeeList.add(employee);
       }
+      connection.commit();
       return employeeList;
 
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException(ex);
+    } catch (Exception exception) {
+      rollback();
+      throw new RuntimeException("error to find employees by department code: " + exception.getMessage());
 
     } finally {
-      closeConnection();
+      closeResources();
     }
   }
 
   public List<EmployeeDto> findLatestEmployees(int latest) {
-    Connection connection = null;
-    PreparedStatement statement = null;
-    ResultSet result = null;
-
     try {
       connection = DatabaseConnection.getConnection();
-
-      String sqlStatement = getQueryToGetLatestEmployees();
-
-      statement = connection.prepareStatement(sqlStatement);
+      statement = connection.prepareStatement(getQueryToGetLatestEmployees());
       statement.setInt(1, latest);
       result = statement.executeQuery();
 
       List<EmployeeDto> employeeList = new ArrayList<>();
-      EmployeeDto employee = null;
-
       while (result.next()) {
-        employee = new EmployeeDto();
+        EmployeeDto employee = new EmployeeDto();
         employee.setCode(result.getInt("code"));
         employee.setName(result.getString("name"));
         employee.setContractDate(result.getDate("contract_date"));
         employee.setDepartmentCode(result.getInt("department_code"));
+
         employeeList.add(employee);
       }
+      connection.commit();
       return employeeList;
 
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException();
+    } catch (Exception exception) {
+      rollback();
+      throw new RuntimeException("error to find latest employees: " + exception.getMessage());
 
     } finally {
-      closeConnection();
+      closeResources();
     }
   }
 
-  private void closeConnection() {
+  private void rollback() {
     try {
-      if (result != null) {
-        result.close();
+      if (connection != null) {
+        connection.rollback();
       }
+    } catch (Exception exception) {
+      throw new RuntimeException("error to rollback: " + exception.getMessage());
+    }
+  }
+
+  private void closeResources() {
+    try {
       if (statement != null) {
         statement.close();
       }
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException(ex);
+      if (result != null) {
+        result.close();
+      }
+    } catch (Exception exception) {
+      throw new RuntimeException("error to close resources: " + exception.getMessage());
     }
   }
 
