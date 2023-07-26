@@ -4,8 +4,7 @@ import java.util.List;
 import title8.application.department.domain.model.DepartmentDto;
 
 /**
- * <br/>Interface Service que define los métodos necesarios para tramitar la lógica de negocio
- * del contexto Department.<br/>
+ * <br/>Componente Service que define los métodos necesarios para tramitar la lógica de negocio.<br/>
  */
 public interface DepartmentService {
 

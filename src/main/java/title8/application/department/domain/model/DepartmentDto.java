@@ -1,6 +1,12 @@
 package title8.application.department.domain.model;
 
-public class DepartmentDto {
+import java.io.Serializable;
+
+/**
+ * <br/> El objetivo del patrón DTO es encapsular los datos de un modelo simple y sin lógica de negocio para facilitar
+ * su transporte entre diferentes componentes. <br/>
+ */
+public class DepartmentDto implements Serializable {
 
   private int code;
   private String name;
