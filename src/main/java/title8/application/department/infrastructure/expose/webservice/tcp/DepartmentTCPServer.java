@@ -74,7 +74,7 @@ public class DepartmentTCPServer extends Thread {
       output.writeInt(size);
 
       for (DepartmentDto department : departmentList) {
-        output.writeUTF(department.toString()); //envío el toString de cada tupla
+        output.writeUTF(department.toString()); //envío el toString de cada objeto
       }
 
     } catch (Exception exception) {

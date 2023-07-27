@@ -1,25 +1,23 @@
 package title7.networking.rpc.server;
 
-import static title7.networking.util.NetworkingConstant.SERVER_PORT;
+import static title7.networking.util.NetworkingConstant.RPC_SERVER_PORT;
 
 import org.apache.xmlrpc.WebServer;
 import title7.networking.rpc.server.services.RpcService;
 import title7.networking.rpc.server.services.RpcServiceImpl;
-import javax.swing.*;
 
 public class RpcServer {
 
   public static void main(String[] args) {
 
     try {
-      WebServer server = new WebServer(SERVER_PORT); // punto final para comunicacion con el server
+      WebServer server = new WebServer(RPC_SERVER_PORT);
       RpcService rpcService = new RpcServiceImpl();
-      server.addHandler("myRpcServer", rpcService); // se asigna un identificador al servidor
+      server.addHandler("myRpcServer", rpcService); //se asigna un identificador al servidor
       server.start();
-      JOptionPane.showMessageDialog(null, "RPC SERVER IS RUNNING...");
-
-    } catch (Exception e) {
-      JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+      System.out.println("You have connected to RPC server.");
+    } catch (Exception exception) {
+      throw new RuntimeException("error to connect to RPC Server: " + exception.getMessage());
     }
   }
 

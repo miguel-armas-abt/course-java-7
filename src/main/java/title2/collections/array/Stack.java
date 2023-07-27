@@ -1,7 +1,5 @@
 package title2.collections.array;
 
-import title2.collections.array.GenericArray;
-
 public class Stack<T> {
 
   int initialCapacity = 5;

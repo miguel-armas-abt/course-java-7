@@ -1,7 +1,5 @@
 package title2.collections.array;
 
-import title2.collections.array.Stack;
-
 public class StackApplication {
 
   public static void main(String[] args) {

@@ -1,9 +1,9 @@
 package title7.networking.rmi.client;
 
 import static title7.networking.util.NetworkingConstant.SERVER_IP;
-import static title7.networking.util.NetworkingConstant.SERVER_PORT;
+import static title7.networking.util.NetworkingConstant.RMI_SERVER_PORT;
 
-import title7.networking.rmi.remoteobject.RemoteObject;
+import title7.networking.rmi.server.RemoteObject;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
@@ -15,30 +15,29 @@ public class RmiClient {
     try {
       Scanner scanner = new Scanner(System.in);
 
-      Registry registry = LocateRegistry.getRegistry(SERVER_IP, SERVER_PORT);    // obtengo acceso al rmiregistry del servidor
-      RemoteObject remoteObject = (RemoteObject) registry.lookup("remoteObject");   // objeto remoto identificado con la clave "remoteObject"
+      Registry registry = LocateRegistry.getRegistry(SERVER_IP, RMI_SERVER_PORT); //obtengo acceso al rmiregistry del RMI Server
+      RemoteObject remoteObject = (RemoteObject) registry.lookup("remoteObject"); //recupero el objeto remoto "remoteObject"
 
-      System.out.print("RMI CLIENT IS RUNNING...\n=================================================");
+      //puedes invocar a los métodos del objeto remoto
+      logInfo(remoteObject.getIpServer());
 
-      // metodo getIpServer()
-      String ipResponse = remoteObject.getIpServer();  // invocación de métodos como cualquier otro objeto
-      System.out.println(ipResponse);
+      System.out.print("Escribe una cadena en minúsculas: ");
+      logInfo(remoteObject.upperCaseConverter(scanner.nextLine()));
 
-      // metodo upperCaseConverter(String)
-      System.out.print("Type a string: ");
-      String inputString = scanner.nextLine();
-      System.out.println("Uppercase sentence: " + remoteObject.upperCaseConverter(inputString));
-
-      // metodo add(int, int)
-      System.out.print("\nType first number: ");
+      System.out.print("Escribe un número entero: ");
       int inputFirstNumber = scanner.nextInt();
 
-      System.out.print("Type first number: ");
+      System.out.print("Escribe otro número entero: ");
       int inputSecondNumber = scanner.nextInt();
-      System.out.println("Sum: " + remoteObject.add(inputFirstNumber, inputSecondNumber));
+
+      logInfo("suma = " + remoteObject.add(inputFirstNumber, inputSecondNumber));
 
     } catch (Exception exception) {
-      System.out.println("Error: " + exception);
+      throw new RuntimeException("error to connect to RMI Server: " + exception.getMessage());
     }
+  }
+
+  private static void logInfo(String message) {
+    System.out.println("[INFO RMI CLIENT RESPONSE]: " + message);
   }
 }

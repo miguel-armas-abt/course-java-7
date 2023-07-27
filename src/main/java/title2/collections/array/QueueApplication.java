@@ -1,7 +1,5 @@
 package title2.collections.array;
 
-import title2.collections.array.Queue;
-
 public class QueueApplication {
 
   public static void main(String[] args) {

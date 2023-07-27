@@ -10,10 +10,8 @@ public class DepartmentRMIDAO {
     try{
       Registry registry = LocateRegistry.getRegistry(NetworkProperties.SERVER_IP, NetworkProperties.DEPARTMENTS_RMI_SERVICE_PORT);
       return registry.lookup(remoteObjectName);
-    }
-    catch(Exception ex){
-      ex.printStackTrace();
-      throw new RuntimeException();
+    } catch (Exception exception) {
+      throw new RuntimeException("error to connect to RMI Server: " + exception.getMessage());
     }
   }
 }

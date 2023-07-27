@@ -6,7 +6,7 @@ public class RpcServiceImpl implements RpcService {
 
   @Override
   public String sum(String firstNumber, String secondNumber) {
-     return UtilFunctions.sum(firstNumber, secondNumber);
+     return UtilFunctions.add(firstNumber, secondNumber);
   }
 
   @Override
