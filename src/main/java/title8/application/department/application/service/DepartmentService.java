@@ -9,4 +9,6 @@ import title8.application.department.domain.model.DepartmentDto;
 public interface DepartmentService {
 
   List<DepartmentDto> findAll();
+
+  DepartmentDto findByCode(int code);
 }

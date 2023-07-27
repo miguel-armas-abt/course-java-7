@@ -7,4 +7,5 @@ import java.util.List;
 public interface DepartmentRemoteObject extends Remote {
 
   List<String> findAll() throws RemoteException;
+  String findByCode(int code) throws RemoteException;
 }

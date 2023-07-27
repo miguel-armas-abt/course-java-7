@@ -1,8 +1,9 @@
 package title8.application.employee.domain.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class EmployeeDto {
+public class EmployeeDto implements Serializable {
 
   private int code;
   private String name;

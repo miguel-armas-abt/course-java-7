@@ -7,8 +7,7 @@ public class ClassesProperties {
 
   private ClassesProperties() {}
 
-  public static String employeeDaoClass = PropertiesReader.getProperty("employeeDaoClass", FileConstant.FACTORY_FILE);
-  public static String departmentDaoClass = PropertiesReader.getProperty("departmentDaoClass", FileConstant.FACTORY_FILE);
-  public static String employeeFacadeClass = PropertiesReader.getProperty("employeeFacadeClass", FileConstant.FACTORY_FILE);
-  public static String departmentFacadeClass = PropertiesReader.getProperty("departmentFacadeClass", FileConstant.FACTORY_FILE);
+  public static String EMPLOYEE_DATABASE_DAO_CLASS = PropertiesReader.getProperty("employeeDatabaseDaoClass", FileConstant.SELECTOR_CLASS_FILE);
+  public static String DEPARTMENT_DATABASE_DAO_CLASS = PropertiesReader.getProperty("departmentDatabaseDaoClass", FileConstant.SELECTOR_CLASS_FILE);
+  public static String DEPARTMENT_FACADE_CLASS = PropertiesReader.getProperty("departmentFacadeClass", FileConstant.SELECTOR_CLASS_FILE);
 }

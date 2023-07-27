@@ -6,19 +6,19 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collection;
+import title8.application.department.application.service.DepartmentService;
+import title8.application.department.application.service.DepartmentServiceImpl;
 import title8.application.department.domain.model.DepartmentDto;
-import title8.application.department.infrastructure.dao.DepartmentDatabaseDAO;
-import title8.application.infrastructure.properties.ClassesProperties;
+import title8.application.department.infrastructure.consume.repository.DepartmentRepositoryImpl;
 import title8.application.infrastructure.properties.NetworkProperties;
 import title8.application.infrastructure.properties.TcpServiceNameProperties;
-import title8.application.infrastructure.util.ObjectFactory;
 
 /**
  * Cada objeto DepartmentDto será enviado como una representación alfanumérica (toString).
  */
 public class DepartmentTCPServer extends Thread {
 
-  private Socket socket;
+  private final Socket socket;
   private DataInputStream inputStream = null;
   private DataOutputStream outputStream = null;
 
@@ -27,13 +27,12 @@ public class DepartmentTCPServer extends Thread {
   }
 
   public static void main(String[] args) throws IOException {
-    ServerSocket serverSocket = new ServerSocket(NetworkProperties.departmentPort);
+    ServerSocket serverSocket = new ServerSocket(NetworkProperties.DEPARTMENTS_TCP_SERVICE_PORT);
     Socket actualSocket;
-
     while (true) {
       actualSocket = serverSocket.accept();
-      new DepartmentTCPServer(actualSocket).start(); // instancio un TcpServer por cada cliente que se conecta al socket
-      System.out.println("DEPARTMENT TCP SERVER IS RUNNING.");
+      new DepartmentTCPServer(actualSocket).start(); //por cada conexión con el socket se instancia un nuevo TcpServer
+      System.out.println("You have connected to the department's TCP server.");
     }
   }
 
@@ -43,29 +42,33 @@ public class DepartmentTCPServer extends Thread {
       outputStream = new DataOutputStream(socket.getOutputStream());
 
       int clientRequest = inputStream.readInt();
-      if(clientRequest == TcpServiceNameProperties.numberOfFindAllDepartments) {
-        findAll(inputStream, outputStream);
+
+      if(clientRequest == TcpServiceNameProperties.DEPARTMENTS_FIND_ALL) {
+        findAll(outputStream);
       }
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException();
+
+      if(clientRequest == TcpServiceNameProperties.DEPARTMENTS_FIND_BY_CODE) {
+        findByCode(inputStream, outputStream);
+      }
+
+    } catch (Exception exception) {
+      throw new RuntimeException("error to select TCP department service: " + exception.getMessage());
 
     } finally {
       try {
         if (outputStream != null) outputStream.close();
         if (inputStream != null) inputStream.close();
         if (socket != null) socket.close();
-      } catch (Exception ex) {
-        ex.printStackTrace();
-        throw new RuntimeException();
+      } catch (Exception exception) {
+        throw new RuntimeException("error to close TCP connection: " + exception.getMessage());
       }
     }
   }
 
-  private void findAll(DataInputStream input, DataOutputStream output) {
+  private void findAll(DataOutputStream output) {
     try {
-      DepartmentDatabaseDAO departmentDatabaseDAO = (DepartmentDatabaseDAO) ObjectFactory.build(ClassesProperties.departmentDaoClass);
-      Collection<DepartmentDto> departmentList = departmentDatabaseDAO.findAll();
+      DepartmentService departmentService = new DepartmentServiceImpl(new DepartmentRepositoryImpl());
+      Collection<DepartmentDto> departmentList = departmentService.findAll();
 
       int size = departmentList.size(); //envío el tamaño de la colección al cliente
       output.writeInt(size);
@@ -74,9 +77,18 @@ public class DepartmentTCPServer extends Thread {
         output.writeUTF(department.toString()); //envío el toString de cada tupla
       }
 
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException();
+    } catch (Exception exception) {
+      throw new RuntimeException("error to send department list: " + exception.getMessage());
+    }
+  }
+
+  private void findByCode(DataInputStream input, DataOutputStream output) {
+    try {
+      DepartmentService departmentService = new DepartmentServiceImpl(new DepartmentRepositoryImpl());
+      DepartmentDto department = departmentService.findByCode(Integer.parseInt(input.readUTF())); //lee el department code
+      output.writeUTF(department.toString());
+    } catch (Exception exception) {
+      throw new RuntimeException("error to send department by code: " + exception.getMessage());
     }
   }
 

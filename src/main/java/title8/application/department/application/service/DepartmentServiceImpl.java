@@ -1,8 +1,8 @@
 package title8.application.department.application.service;
 
-import title8.application.department.domain.model.DepartmentDto;
-import title8.application.department.infrastructure.repository.DepartmentRepository;
 import java.util.List;
+import title8.application.department.domain.model.DepartmentDto;
+import title8.application.department.infrastructure.consume.repository.DepartmentRepository;
 
 public class DepartmentServiceImpl implements DepartmentService {
 
@@ -15,5 +15,10 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Override
   public List<DepartmentDto> findAll() {
     return departmentRepository.findAll();
+  }
+
+  @Override
+  public DepartmentDto findByCode(int code) {
+    return departmentRepository.findByCode(code);
   }
 }
